@@ -103,7 +103,6 @@ main {
   padding: 20px;
 }
 
-
 /* Popup styling */
 .popup-overlay {
   position: fixed;
@@ -119,7 +118,7 @@ main {
 }
 
 .popup {
-  background: white;
+  background: black; /* Changed to black background */
   padding: 20px;
   border-radius: 8px;
   width: 80%;
@@ -193,6 +192,7 @@ main {
 .submit-button:hover {
   background: #005b9f;
 }
+
 /* Add styling for error message */
 .error-message {
   color: red;
@@ -218,3 +218,46 @@ main {
   background-color: #003f73;
 }
 
+/* Button for showing user info */
+.user-info-button {
+  background-color: #003f73;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.user-info-button:hover {
+  background-color: #002a56; /* Changed for better visibility */
+}
+
+.user-info-popup {
+  background: black; /* Changed to black background */
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  color: white; /* Ensure text color is white for contrast */
+}
+
+.user-info-popup h2 {
+  margin-bottom: 20px;
+  color: white; /* Ensure heading color is white */
+}
+
+.user-info-popup p {
+  margin: 10px 0;
+  color: white; /* Ensure paragraph text color is white */
+}
+
+.user-info-popup a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.user-info-popup a:hover {
+  text-decoration: underline;
+}
