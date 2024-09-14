@@ -68,7 +68,6 @@ const ResumeBuilder = () => {
       ...selectedProjects
     ].join(', ');
 
-    alert(`Selected Options: ${allSelected}`);
   };
 
   return (
