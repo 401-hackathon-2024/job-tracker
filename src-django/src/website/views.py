@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 import json
 
+from models import User
+
 # Create your views here.
 
 resumeResponse = {}
@@ -20,7 +22,6 @@ resumeResponse["linkedIn"] = "https://linkedin.com/in/janettecampbell"
 resumeResponse["portfolio"] = "https://janetteportfolio.com"
 resumeResponse[
     "additionalInfo"] = "Proficient in Python, React, and machine learning."
-
 
 def resume(request):
     return HttpResponse(json.dumps(resumeResponse),

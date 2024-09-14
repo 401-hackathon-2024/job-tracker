@@ -128,7 +128,7 @@ class Language(models.Model):
 
 class Reference(models.Model):
     """ Reference Model
-    
+
     1-many relationship with resume.
     1-many relationship with user.
 
