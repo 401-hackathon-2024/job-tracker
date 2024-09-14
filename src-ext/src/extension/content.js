@@ -20,7 +20,7 @@ async function fetchResumeData(url) {
 
 // Function to autofill the form
 async function autofillForm() {
-    const resumeData = await fetchResumeData('https://example.com/getResumeData');
+    const resumeData = await fetchResumeData('localhost:8000/resume');
     if (!resumeData) return;
 
     // Select the input fields and assign values
