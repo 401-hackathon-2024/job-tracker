@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Venv
+venv
+build
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -25,3 +29,6 @@ dist-ssr
 
 # Build
 build/deploy.sh
+
+# Python
+**/__pycache__
