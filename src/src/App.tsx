@@ -157,7 +157,7 @@ function MainPage() {
   const handleFieldSubmit = async (section: string) => {
     const fieldData = profileData[section];
     const fieldErrors = { ...errors };
-  
+
     if (section === 'workExperience') {
       if (fieldData.some(exp => Object.values(exp).some(item => typeof item === 'string' && item.trim() === ''))) {
         fieldErrors[section] = 'Some fields in work experience are empty.';
@@ -187,8 +187,7 @@ function MainPage() {
   
     try {
       await submitProfile({ [section]: fieldData });
-      alert(`${section} data submitted successfully!`);
-  
+
       setProfileData(prev => ({
         ...prev,
         [section]: section === 'workExperience'
