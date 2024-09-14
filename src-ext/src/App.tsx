@@ -19,14 +19,6 @@ const App: React.FC = () => {
         });
     };
 
-<<<<<<< HEAD
-    return (
-        <div id="container">
-            <h2>Resume Helper PRO</h2>
-            <button onClick={handleAutofill}>Autofill Form</button>
-        </div>
-    );
-=======
     return (<div id="container">
     <h2>Auto Job Application Filler</h2>
 
@@ -53,7 +45,6 @@ const App: React.FC = () => {
     </div>
 </div>
 );
->>>>>>> 9d0660cb0f80666024a67181de8ab8169c838b1f
 };
 
 export default App;
