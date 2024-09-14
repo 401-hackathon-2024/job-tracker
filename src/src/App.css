@@ -166,6 +166,13 @@ main {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+.input-work-responsibilities textarea {
+  width: 100%;    /* Make it full-width within its container */
+  height: 150px;  /* Set the default height */
+  padding: 10px;  /* Optional: Add padding for a better look */
+  box-sizing: border-box; /* Ensures padding is included in the width/height */
+  resize: none;
+}
 
 .add-button {
   background: #007acc;

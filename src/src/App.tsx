@@ -244,7 +244,7 @@ function MainPage() {
                       placeholder="End Date"
                     />
                   </div>
-                  <div className="input-group">
+                  <div className="input-work-responsibilities">
                     <textarea
                       value={experience.responsibilities[0] || ''}  // Use the first item for simplicity.
                       onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'responsibilities')}
