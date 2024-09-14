@@ -1,0 +1,272 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+  height: 100%;
+  width: 100%;
+  background-color: #f4f4f4;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%; /* Full width */
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #007acc;
+  color: white;
+  padding: 15px 20px;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.profile-button {
+  background-color: #005b9f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.profile-button:hover {
+  background-color: #003f73;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 20px;
+}
+
+.search-bar {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.job-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.job-table th, .job-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  color: black;
+}
+
+.job-table th {
+  background-color: #007acc;
+  color: white;
+}
+
+.job-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.job-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.no-jobs {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+
+/* Popup styling */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background: black; /* Changed to black background */
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background: #c0392b;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.input-work-responsibilities textarea {
+  width: 100%;    /* Make it full-width within its container */
+  height: 150px;  /* Set the default height */
+  padding: 10px;  /* Optional: Add padding for a better look */
+  box-sizing: border-box; /* Ensures padding is included in the width/height */
+  resize: none;
+}
+
+.add-button {
+  background: #007acc;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background: #005b9f;
+}
+
+/* Add styling for submit button */
+.submit-button {
+  background: #007acc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.submit-button:hover {
+  background: #005b9f;
+}
+
+/* Add styling for error message */
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.resume-builder-button {
+  background-color: #005b9f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto; /* Centering the button */
+}
+
+.resume-builder-button:hover {
+  background-color: #003f73;
+}
+
+/* Button for showing user info */
+.user-info-button {
+  background-color: #003f73;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.user-info-button:hover {
+  background-color: #002a56; /* Changed for better visibility */
+}
+
+.user-info-popup {
+  background: black; /* Changed to black background */
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+  color: white; /* Ensure text color is white for contrast */
+}
+
+.user-info-popup h2 {
+  margin-bottom: 20px;
+  color: white; /* Ensure heading color is white */
+}
+
+.user-info-popup p {
+  margin: 10px 0;
+  color: white; /* Ensure paragraph text color is white */
+}
+
+.user-info-popup a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.user-info-popup a:hover {
+  text-decoration: underline;
+}
