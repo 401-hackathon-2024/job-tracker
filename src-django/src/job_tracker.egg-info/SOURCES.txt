@@ -18,3 +18,10 @@ src/job_tracker.egg-info/SOURCES.txt
 src/job_tracker.egg-info/dependency_links.txt
 src/job_tracker.egg-info/requires.txt
 src/job_tracker.egg-info/top_level.txt
+src/website/__init__.py
+src/website/admin.py
+src/website/apps.py
+src/website/models.py
+src/website/tests.py
+src/website/views.py
+src/website/migrations/__init__.py

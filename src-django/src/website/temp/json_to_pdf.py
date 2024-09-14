@@ -1,4 +1,3 @@
-from flask import Flask, request, jsonify
 from fpdf import FPDF
 import json
 
@@ -105,17 +104,3 @@ def json_to_pdf(json_data, output_pdf):
 #     output_pdf = "resume.pdf"
 #     json_data = read_json_file(input_json)
 #     json_to_pdf(json_data, output_pdf)
-
-
-app = Flask(__name__)
-
-@app.route('/run-python-code', methods=['POST'])
-def run_python_code():
-    json_data = request.json
-    print(json_data)
-    json_to_pdf(json_data, 'jtp_output/resume.pdf')
-    print(1)
-    return jsonify({"message": "PDF created successfully!"})
-
-if __name__ == '__main__':
-    app.run(port = 5000)
