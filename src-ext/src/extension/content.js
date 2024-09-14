@@ -1,24 +1,28 @@
-// Sample data to autofill the form
-const resumeData = {
-    firstName: "Janette",
-    lastName: "Powell",
-    email: "jan@stanford.edu",
-    phone: "(650) 555-1234",
-    presentAddress: "P.O. Box 2738, Stanford, CA 94309",
-    city: "Stanford",
-    zipCode: "94309",
-    country: "United States",
-    appliedPosition: "Software Engineer",
-    earliestStartDate: "2024-09-01",
-    coverLetter: "I am interested in this position because...",
-    totalExperience: "3",
-    linkedIn: "https://linkedin.com/in/janettecampbell",
-    portfolio: "https://janetteportfolio.com",
-    additionalInfo: "Proficient in Python, React, and machine learning."
-};
+// Function to fetch resume data from a URL
+async function fetchResumeData(url) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ request: 'resumeData' })
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching resume data:', error);
+        return null;
+    }
+}
 
 // Function to autofill the form
-function autofillForm() {
+async function autofillForm() {
+    const resumeData = await fetchResumeData('https://example.com/getResumeData');
+    if (!resumeData) return;
+
     // Select the input fields and assign values
     const firstNameField = document.querySelector('input[name="names[first_name]"]');
     if (firstNameField) firstNameField.value = resumeData.firstName;
@@ -83,7 +87,9 @@ function autofillForm() {
 // Listen for messages from the popup script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "autofillForm") {
-        autofillForm();
-        sendResponse({ status: "form autofilled" });
+        autofillForm().then(() => {
+            sendResponse({ status: "form autofilled" });
+        });
+        return true; // Will respond asynchronously
     }
 });
