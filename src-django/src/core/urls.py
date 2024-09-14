@@ -21,5 +21,5 @@ from website import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('resume/', views.resume, name='resume'),
-    path('jtp/', views.json_to_pdf, name='jtp'),
+    # path('jtp/', views.json_to_pdf, name='jtp'),
 ]
