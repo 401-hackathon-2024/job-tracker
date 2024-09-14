@@ -29,3 +29,6 @@ build
 
 # Build
 build/deploy.sh
+
+# Python
+**/__pycache__
