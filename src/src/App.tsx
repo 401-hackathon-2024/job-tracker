@@ -29,19 +29,46 @@ function MainPage() {
       end_date: '',
       responsibilities: ['']
     }],
-    projects: [''],
+    projects: [{
+      name: '',
+      description: '',
+      url: ''
+    }],
     skills: [{
       programming: '',
       web_development: '',
       databases: '',
       tools: '',
+    }],
+    certifications: [{
+      name: '',
+      date_obtained: ''
+    }],
+    languages: [''],
+    references: [{
+      name: '',
+      title: '',
+      company: '',
+      email: '',
+      phone: ''
+    }],
+    education: [{
+      institution: '',
+      degree: '',
+      start_date: '',
+      end_date: '',
+      gpa: ''
     }]
   });
+  
   const [errors, setErrors] = useState({
     highlights: '',
     workExperience: '',
     projects: '',
-    skills: ''
+    skills: '',
+    certifications: '',
+    languages: '',
+    references: ''
   });
 
   useEffect(() => {
@@ -72,7 +99,7 @@ function MainPage() {
         if (field === 'responsibilities') {
           updatedWorkExperience[index] = {
             ...updatedWorkExperience[index],
-            responsibilities: [value]  // Update this as an array, you can adjust if multiple items are needed.
+            responsibilities: [value]
           };
         } else {
           updatedWorkExperience[index] = {
@@ -81,6 +108,13 @@ function MainPage() {
           };
         }
         return { ...prev, workExperience: updatedWorkExperience };
+      } else if (section === 'projects' || section === 'certifications' || section === 'references' || section === 'education') {
+        const updatedSection = [...prev[section]];
+        updatedSection[index] = {
+          ...updatedSection[index],
+          [field]: value
+        };
+        return { ...prev, [section]: updatedSection };
       } else {
         const updatedSection = [...prev[section]];
         updatedSection[index] = value;
@@ -89,14 +123,29 @@ function MainPage() {
     });
   };
   
+  
+  
+  
 
   const handleFieldSubmit = async (section: string) => {
     const fieldData = profileData[section];
     const fieldErrors = { ...errors };
-
+  
     if (section === 'workExperience') {
       if (fieldData.some(exp => Object.values(exp).some(item => typeof item === 'string' && item.trim() === ''))) {
         fieldErrors[section] = 'Some fields in work experience are empty.';
+        setErrors(fieldErrors);
+        return;
+      }
+    } else if (section === 'certifications' || section === 'references' || section === 'education') {
+      if (fieldData.some(item => Object.values(item).some(val => val.trim() === ''))) {
+        fieldErrors[section] = 'Some fields are empty.';
+        setErrors(fieldErrors);
+        return;
+      }
+    } else if (section === 'projects') {
+      if (fieldData.some(project => Object.values(project).some(val => val.trim() === ''))) {
+        fieldErrors[section] = 'Some fields in projects are empty.';
         setErrors(fieldErrors);
         return;
       }
@@ -105,25 +154,35 @@ function MainPage() {
       setErrors(fieldErrors);
       return;
     }
-
+  
     fieldErrors[section] = ''; // Clear error if valid
     setErrors(fieldErrors);
-
+  
     try {
       await submitProfile({ [section]: fieldData });
       alert(`${section} data submitted successfully!`);
-
+  
       setProfileData(prev => ({
         ...prev,
         [section]: section === 'workExperience'
           ? [{ job_title: '', company: '', location: '', start_date: '', end_date: '', responsibilities: [''] }]
-          : [''] // Reset field
+          : section === 'certifications'
+            ? [{ name: '', date_obtained: '' }]
+            : section === 'references'
+              ? [{ name: '', title: '', company: '', email: '', phone: '' }]
+              : section === 'projects'
+                ? [{ name: '', description: '', url: '' }]
+                : section === 'education'
+                  ? [{ institution: '', degree: '', start_date: '', end_date: '', gpa: '' }]
+                  : [''] // Reset other fields
       }));
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while submitting the profile data.');
     }
   };
+  
+  
 
   return (
     <>
@@ -187,7 +246,7 @@ function MainPage() {
             </Link>
 
             <h2>Profile</h2>
-            {['highlights', 'projects'].map(section => (
+            {['highlights'].map(section => (
               <div key={section} className="section">
                 <h3>{section.replace(/([A-Z])/g, ' $1').toUpperCase()}</h3>
                 {profileData[section].map((item, index) => (
@@ -204,6 +263,91 @@ function MainPage() {
                 <button className="submit-button" onClick={() => handleFieldSubmit(section)}>Submit {section}</button>
               </div>
             ))}
+
+            <div className="section">
+              <h4>EDUCATION</h4>
+              {profileData.education.map((education, index) => (
+                <div key={index}>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={education.institution}
+                      onChange={(e) => handleInputChange('education', index, e.target.value, 'institution')}
+                      placeholder="Institution"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={education.degree}
+                      onChange={(e) => handleInputChange('education', index, e.target.value, 'degree')}
+                      placeholder="Degree"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="date"
+                      value={education.start_date}
+                      onChange={(e) => handleInputChange('education', index, e.target.value, 'start_date')}
+                      placeholder="Start Date"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="date"
+                      value={education.end_date}
+                      onChange={(e) => handleInputChange('education', index, e.target.value, 'end_date')}
+                      placeholder="End Date"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={education.gpa}
+                      onChange={(e) => handleInputChange('education', index, e.target.value, 'gpa')}
+                      placeholder="GPA"
+                    />
+                  </div>
+                </div>
+              ))}
+              {errors.education && <p className="error-message">{errors.education}</p>}
+              <button className="submit-button" onClick={() => handleFieldSubmit('education')}>Submit Education</button>
+            </div>
+
+
+            <div className="section">
+              <h3>PROJECTS</h3>
+              {profileData.projects.map((project, index) => (
+                <div key={index}>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={project.name}
+                      onChange={(e) => handleInputChange('projects', index, e.target.value, 'name')}
+                      placeholder="Project Name"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={project.description}
+                      onChange={(e) => handleInputChange('projects', index, e.target.value, 'description')}
+                      placeholder="Project Description"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={project.url}
+                      onChange={(e) => handleInputChange('projects', index, e.target.value, 'url')}
+                      placeholder="Project URL"
+                    />
+                  </div>
+                </div>
+              ))}
+              {errors.projects && <p className="error-message">{errors.projects}</p>}
+              <button className="submit-button" onClick={() => handleFieldSubmit('projects')}>Submit Projects</button>
+            </div>
 
             <div className="section">
               <h2>SKILLS</h2>
@@ -304,6 +448,101 @@ function MainPage() {
               {errors.workExperience && <p className="error-message">{errors.workExperience}</p>}
               <button className="submit-button" onClick={() => handleFieldSubmit('workExperience')}>Submit Work Experience</button>
             </div>
+
+            {/* Certifications Section */}
+<div className="section">
+  <h2>CERTIFICATIONS</h2>
+  {profileData.certifications.map((certification, index) => (
+    <div key={index}>
+      <div className="input-group">
+        <input
+          type="text"
+          value={certification.name}
+          onChange={(e) => handleInputChange('certifications', index, e.target.value, 'name')}
+          placeholder="Certification Name"
+        />
+      </div>
+      <div className="input-group">
+        <input
+          type="date"
+          value={certification.date_obtained}
+          onChange={(e) => handleInputChange('certifications', index, e.target.value, 'date_obtained')}
+          placeholder="Date Obtained"
+        />
+      </div>
+    </div>
+  ))}
+  {errors.certifications && <p className="error-message">{errors.certifications}</p>}
+  <button className="submit-button" onClick={() => handleFieldSubmit('certifications')}>Submit Certifications</button>
+</div>
+
+{/* Languages Section */}
+<div className="section">
+  <h2>LANGUAGES</h2>
+  {profileData.languages.map((language, index) => (
+    <div key={index} className="input-group">
+      <input
+        type="text"
+        value={language}
+        onChange={(e) => handleInputChange('languages', index, e.target.value)}
+        placeholder="Language"
+      />
+    </div>
+  ))}
+  {errors.languages && <p className="error-message">{errors.languages}</p>}
+  <button className="submit-button" onClick={() => handleFieldSubmit('languages')}>Submit Languages</button>
+</div>
+
+{/* References Section */}
+<div className="section">
+  <h2>REFERENCES</h2>
+  {profileData.references.map((reference, index) => (
+    <div key={index}>
+      <div className="input-group">
+        <input
+          type="text"
+          value={reference.name}
+          onChange={(e) => handleInputChange('references', index, e.target.value, 'name')}
+          placeholder="Reference Name"
+        />
+      </div>
+      <div className="input-group">
+        <input
+          type="text"
+          value={reference.title}
+          onChange={(e) => handleInputChange('references', index, e.target.value, 'title')}
+          placeholder="Reference Title"
+        />
+      </div>
+      <div className="input-group">
+        <input
+          type="text"
+          value={reference.company}
+          onChange={(e) => handleInputChange('references', index, e.target.value, 'company')}
+          placeholder="Reference Company"
+        />
+      </div>
+      <div className="input-group">
+        <input
+          type="email"
+          value={reference.email}
+          onChange={(e) => handleInputChange('references', index, e.target.value, 'email')}
+          placeholder="Reference Email"
+        />
+      </div>
+      <div className="input-group">
+        <input
+          type="tel"
+          value={reference.phone}
+          onChange={(e) => handleInputChange('references', index, e.target.value, 'phone')}
+          placeholder="Reference Phone"
+        />
+      </div>
+    </div>
+  ))}
+  {errors.references && <p className="error-message">{errors.references}</p>}
+  <button className="submit-button" onClick={() => handleFieldSubmit('references')}>Submit References</button>
+</div>
           </div>
         </div>
       )}
