@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import { fetchJobs, submitProfile, Job } from './services/api';
-import ResumeBuilder from './ResumeBuilder'; // Import ResumeBuilder component
+import ResumeBuilder from './ResumeBuilder';
 
 function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/resume-builder" element={<ResumeBuilder />} />
+      </Routes>
+    </Router>
+  );
+}
+
+function MainPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [navigateToResumeBuilder, setNavigateToResumeBuilder] = useState(false); // To track navigation
   const [profileData, setProfileData] = useState({
     highlights: [''],
     workExperience: [''],
@@ -21,7 +32,6 @@ function App() {
     skills: ''
   });
 
-  // Fetch jobs when the component mounts
   useEffect(() => {
     const getJobs = async () => {
       const jobsFromApi = await fetchJobs();
@@ -55,7 +65,6 @@ function App() {
     const fieldData = profileData[section];
     const fieldErrors = { ...errors };
 
-    // Validate the specific field
     if (fieldData.some(item => item.trim() === '')) {
       fieldErrors[section] = 'Field is empty.';
       setErrors(fieldErrors);
@@ -69,7 +78,6 @@ function App() {
       await submitProfile({ [section]: fieldData });
       alert(`${section} data submitted successfully!`);
 
-      // Clear the specific field
       setProfileData(prev => ({
         ...prev,
         [section]: [''] // Reset field
@@ -80,20 +88,16 @@ function App() {
     }
   };
 
-  const handleResumeBuilderRedirect = () => {
-    setNavigateToResumeBuilder(true); // Set navigation state to true
-  };
-
-  // If "navigateToResumeBuilder" is true, render the ResumeBuilder component
-  if (navigateToResumeBuilder) {
-    return <ResumeBuilder />;
-  }
-
   return (
     <>
       <header>
         <h1>Job Tracker</h1>
-        <button className="profile-button" onClick={handleProfileButtonClick}>Profile</button>
+        <div className="header-buttons">
+          <Link to="/resume-builder">
+            <button className="resume-builder-button">Resume Builder</button>
+          </Link>
+          <button className="profile-button" onClick={handleProfileButtonClick}>Profile</button>
+        </div>
       </header>
 
       <main>
@@ -139,10 +143,11 @@ function App() {
           <div className="popup">
             <button className="close-button" onClick={handlePopupClose}>X</button>
 
-            {/* Add Resume Builder Button */}
-            <button className="resume-builder-button" onClick={handleResumeBuilderRedirect}>
-              Resume Builder
-            </button>
+            <Link to="/resume-builder">
+              <button className="resume-builder-button">
+                Resume Builder
+              </button>
+            </Link>
 
             <h2>Profile</h2>
             {['highlights', 'workExperience', 'projects', 'skills'].map(section => (
