@@ -1,6 +1,7 @@
 from django.db import models
 
-MAX_CHARFIELD_LEN: int = 2<<7 # 256
+MAX_CHARFIELD_LEN: int = 2 << 7  # 256
+
 
 class User(models.Model):
     """ User Model """
@@ -12,7 +13,9 @@ class User(models.Model):
     def __str__(self):
         return self.first_name + " " + self.last_name + " " + self.email
 
+
 ## BEGIN RESUME ##
+
 
 class Resume(models.Model):
     """ Resume Model 
@@ -27,11 +30,12 @@ class Resume(models.Model):
 
     # This needs to be validated client-side
     phone = models.CharField(max_length=MAX_CHARFIELD_LEN)
-    
+
     city = models.CharField(max_length=MAX_CHARFIELD_LEN)
     zip_code = models.CharField(max_length=MAX_CHARFIELD_LEN)
     country = models.CharField(max_length=MAX_CHARFIELD_LEN)
     job_title = models.CharField(max_length=MAX_CHARFIELD_LEN)
+
 
 class Education(models.Model):
     """ Education
@@ -50,6 +54,7 @@ class Education(models.Model):
     class Meta:
         unique_together = ['user', 'resume']
 
+
 class Address(models.Model):
     """ Address Model
     """
@@ -67,6 +72,7 @@ class Address(models.Model):
     class Meta:
         unique_together = ['user', 'resume']
 
+
 class CoverLetter(models.Model):
     """ Cover Letter
 
@@ -82,6 +88,7 @@ class CoverLetter(models.Model):
     class Meta:
         unique_together = ['resume', 'user']
 
+
 class Url(models.Model):
     """ A URL Model 
     """
@@ -92,6 +99,7 @@ class Url(models.Model):
 
     class Meta:
         unique_together = ['resume', 'user']
+
 
 class Project(models.Model):
     """ Project Model
@@ -111,6 +119,7 @@ class Project(models.Model):
     class Meta:
         unique_together = ['user', 'resume']
 
+
 class Language(models.Model):
     """ Lanaguage Model
 
@@ -126,6 +135,7 @@ class Language(models.Model):
     class Meta:
         unique_together = ['user', 'resume']
 
+
 class Reference(models.Model):
     """ Reference Model
     
@@ -133,7 +143,7 @@ class Reference(models.Model):
     1-many relationship with user.
 
     """
-    
+
     user = models.ForeignKey(User, primary_key=True, on_delete=models.CASCADE)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
     reference = models.CharField(max_length=MAX_CHARFIELD_LEN)
@@ -141,9 +151,11 @@ class Reference(models.Model):
     class Meta:
         unique_together = ['user', 'resume']
 
+
 ## END RESUME ##
 
 ## BEGIN EXPERIENCE ##
+
 
 class Experience(models.Model):
     """ Experience Model
@@ -165,6 +177,7 @@ class Experience(models.Model):
     class Meta:
         unique_together = ['resume', 'user']
 
+
 class Responsibilities(models.Model):
     """ A Responsibilities Model
 
@@ -176,9 +189,11 @@ class Responsibilities(models.Model):
     exp = models.ForeignKey(Experience, on_delete=models.CASCADE)
     text = models.CharField(max_length=MAX_CHARFIELD_LEN)
 
+
 ## END EXPERIENCES ##s
 
 ## BEGIN SKILLS
+
 
 class Skill(models.Model):
     """ Skill Model
@@ -198,7 +213,9 @@ class Skill(models.Model):
     def __str__(self):
         return self.user + "'s " + self.skill + " skill"
 
+
 ## END SKILLS
+
 
 class Job(models.Model):
     """ Job-Tracking Model
