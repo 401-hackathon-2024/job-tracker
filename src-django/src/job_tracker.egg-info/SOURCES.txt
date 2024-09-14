@@ -24,4 +24,6 @@ src/website/apps.py
 src/website/models.py
 src/website/tests.py
 src/website/views.py
+src/website/migrations/0001_initial.py
+src/website/migrations/0002_rename_text_experience_company_and_more.py
 src/website/migrations/__init__.py

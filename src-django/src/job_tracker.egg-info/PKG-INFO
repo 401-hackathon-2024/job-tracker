@@ -3,3 +3,4 @@ Name: job-tracker
 Version: 0.1.0
 Requires-Python: >=3.10
 Requires-Dist: django
+Requires-Dist: django-cors-headers
