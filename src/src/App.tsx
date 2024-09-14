@@ -30,7 +30,12 @@ function MainPage() {
       responsibilities: ['']
     }],
     projects: [''],
-    skills: ['']
+    skills: [{
+      programming: '',
+      web_development: '',
+      databases: '',
+      tools: '',
+    }]
   });
   const [errors, setErrors] = useState({
     highlights: '',
@@ -182,7 +187,7 @@ function MainPage() {
             </Link>
 
             <h2>Profile</h2>
-            {['highlights', 'projects', 'skills'].map(section => (
+            {['highlights', 'projects'].map(section => (
               <div key={section} className="section">
                 <h3>{section.replace(/([A-Z])/g, ' $1').toUpperCase()}</h3>
                 {profileData[section].map((item, index) => (
@@ -199,6 +204,49 @@ function MainPage() {
                 <button className="submit-button" onClick={() => handleFieldSubmit(section)}>Submit {section}</button>
               </div>
             ))}
+
+            <div className="section">
+              <h2>SKILLS</h2>
+              {profileData.skills.map((skills, index) => (
+                <div key={index}>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={skills.programming}
+                      onChange={(e) => handleInputChange('skills', index, e.target.value, 'programming')}
+                      placeholder="Programming Skills"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={skills.web_development}
+                      onChange={(e) => handleInputChange('skills', index, e.target.value, 'web_development')}
+                      placeholder="Web Development Skills"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={skills.databases}
+                      onChange={(e) => handleInputChange('skills', index, e.target.value, 'databases')}
+                      placeholder="Database Skills"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={skills.tools}
+                      onChange={(e) => handleInputChange('skills', index, e.target.value, 'tools')}
+                      placeholder="Tool Skills"
+                    />
+                  </div>
+                </div>
+              ))}
+              {errors.workExperience && <p className="error-message">{errors.skills}</p>}
+              <button className="submit-button" onClick={() => handleFieldSubmit('skills')}>Submit Skills</button>
+            </div>
+
 
             <div className="section">
               <h3>WORK EXPERIENCE</h3>
