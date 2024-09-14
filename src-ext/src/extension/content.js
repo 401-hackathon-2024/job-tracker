@@ -20,7 +20,8 @@ async function fetchResumeData(url) {
 
 // Function to autofill the form
 async function autofillForm() {
-    const resumeData = await fetchResumeData('localhost:8000/resume');
+    console.log("Autofill form function called");
+    const resumeData = await fetchResumeData('http://localhost:8000/resume');
     if (!resumeData) return;
 
     // Select the input fields and assign values
@@ -86,9 +87,13 @@ async function autofillForm() {
 
 // Listen for messages from the popup script
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("Message received in content script:", request);
     if (request.action === "autofillForm") {
         autofillForm().then(() => {
             sendResponse({ status: "form autofilled" });
+        }).catch(error => {
+            console.error('Error autofilling form:', error);
+            sendResponse({ status: "error", message: error.message });
         });
         return true; // Will respond asynchronously
     }
