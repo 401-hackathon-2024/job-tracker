@@ -6,12 +6,12 @@
   "permissions": ["activeTab", "scripting"],
   "host_permissions": ["<all_urls>"],
   "action": {
-    "default_popup": "src/extension/popup.html"
+      "default_popup": "popup.html"
   },
   "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["src/extension/content.js"]
-    }
+      {
+          "matches": ["<all_urls>"],
+          "js": ["content.js"]
+      }
   ]
 }
