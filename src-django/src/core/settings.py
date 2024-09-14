@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-^wkqbiyw@g+*i%a!)ft3n7n&jxgu@#%=o*(8oc^v=&94@y-$ao
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Having Debug mode on for Hackathon probably doesn't matter
 
-ALLOWED_HOSTS = ['[2605:fd00:4:1001:f816:3eff:fe56:7fd0]', 'localhost']
+ALLOWED_HOSTS = ['[2605:fd00:4:1001:f816:3eff:fe56:7fd0]', 'localhost', '127.0.0.1']
 
 # Application definition
 
