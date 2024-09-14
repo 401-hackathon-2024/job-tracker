@@ -21,7 +21,14 @@ function MainPage() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [profileData, setProfileData] = useState({
     highlights: [''],
-    workExperience: [''],
+    workExperience: [{
+      job_title: '',
+      company: '',
+      location: '',
+      start_date: '',
+      end_date: '',
+      responsibilities: ['']
+    }],
     projects: [''],
     skills: ['']
   });
@@ -53,19 +60,42 @@ function MainPage() {
     setIsPopupOpen(false);
   };
 
-  const handleInputChange = (section: string, index: number, value: string) => {
+  const handleInputChange = (section: string, index: number, value: string, field?: string) => {
     setProfileData(prev => {
-      const updatedSection = [...prev[section]];
-      updatedSection[index] = value;
-      return { ...prev, [section]: updatedSection };
+      if (section === 'workExperience') {
+        const updatedWorkExperience = [...prev.workExperience];
+        if (field === 'responsibilities') {
+          updatedWorkExperience[index] = {
+            ...updatedWorkExperience[index],
+            responsibilities: [value]  // Update this as an array, you can adjust if multiple items are needed.
+          };
+        } else {
+          updatedWorkExperience[index] = {
+            ...updatedWorkExperience[index],
+            [field]: value
+          };
+        }
+        return { ...prev, workExperience: updatedWorkExperience };
+      } else {
+        const updatedSection = [...prev[section]];
+        updatedSection[index] = value;
+        return { ...prev, [section]: updatedSection };
+      }
     });
   };
+  
 
   const handleFieldSubmit = async (section: string) => {
     const fieldData = profileData[section];
     const fieldErrors = { ...errors };
 
-    if (fieldData.some(item => item.trim() === '')) {
+    if (section === 'workExperience') {
+      if (fieldData.some(exp => Object.values(exp).some(item => typeof item === 'string' && item.trim() === ''))) {
+        fieldErrors[section] = 'Some fields in work experience are empty.';
+        setErrors(fieldErrors);
+        return;
+      }
+    } else if (fieldData.some(item => item.trim() === '')) {
       fieldErrors[section] = 'Field is empty.';
       setErrors(fieldErrors);
       return;
@@ -80,7 +110,9 @@ function MainPage() {
 
       setProfileData(prev => ({
         ...prev,
-        [section]: [''] // Reset field
+        [section]: section === 'workExperience'
+          ? [{ job_title: '', company: '', location: '', start_date: '', end_date: '', responsibilities: [''] }]
+          : [''] // Reset field
       }));
     } catch (error) {
       console.error('Error:', error);
@@ -150,7 +182,7 @@ function MainPage() {
             </Link>
 
             <h2>Profile</h2>
-            {['highlights', 'workExperience', 'projects', 'skills'].map(section => (
+            {['highlights', 'projects', 'skills'].map(section => (
               <div key={section} className="section">
                 <h3>{section.replace(/([A-Z])/g, ' $1').toUpperCase()}</h3>
                 {profileData[section].map((item, index) => (
@@ -167,6 +199,63 @@ function MainPage() {
                 <button className="submit-button" onClick={() => handleFieldSubmit(section)}>Submit {section}</button>
               </div>
             ))}
+
+            <div className="section">
+              <h3>WORK EXPERIENCE</h3>
+              {profileData.workExperience.map((experience, index) => (
+                <div key={index}>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={experience.job_title}
+                      onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'job_title')}
+                      placeholder="Job Title"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={experience.company}
+                      onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'company')}
+                      placeholder="Company"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      value={experience.location}
+                      onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'location')}
+                      placeholder="Location"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="date"
+                      value={experience.start_date}
+                      onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'start_date')}
+                      placeholder="Start Date"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <input
+                      type="date"
+                      value={experience.end_date}
+                      onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'end_date')}
+                      placeholder="End Date"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <textarea
+                      value={experience.responsibilities[0] || ''}  // Use the first item for simplicity.
+                      onChange={(e) => handleInputChange('workExperience', index, e.target.value, 'responsibilities')}
+                      placeholder="Responsibilities"
+                    />
+                  </div>
+                </div>
+              ))}
+              {errors.workExperience && <p className="error-message">{errors.workExperience}</p>}
+              <button className="submit-button" onClick={() => handleFieldSubmit('workExperience')}>Submit Work Experience</button>
+            </div>
           </div>
         </div>
       )}
