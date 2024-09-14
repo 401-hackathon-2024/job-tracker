@@ -7,9 +7,9 @@ import json
 
 def resume(request):
     if request.method == 'GET':
-        first = request.GET['firstName']
-        last = request.GET['lastName']
-        email = request.GET['email']
+        first = "bob"
+        last = "bob"
+        email = "bob@bob.com"
         currentRef = None
         currentUser = None
         currentResume = None
